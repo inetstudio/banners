@@ -9,7 +9,10 @@ build:
           - phpcs-run
 filter:
   excluded_paths:
-    - 'entities/promo/resources/'
+    - 'entities/banners/resources/'
+    - 'entities/groups/resources/'
+    - 'entities/places/resources/'
+    - 'package/resources/'
 checks:
   php:
     verify_property_names: true

@@ -19,7 +19,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
     protected $items = [];
 
     /**
-     * @var array 
+     * @var array
      */
     protected $materialsItems = [];
 
