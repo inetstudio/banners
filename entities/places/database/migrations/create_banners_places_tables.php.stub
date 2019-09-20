@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+/**
+ * Class CreateBannersPlacesTables.
+ */
+class CreateBannersPlacesTables extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create('banners_places', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('alias');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('banners_places_banners', function (Blueprint $table) {
+            $table->integer('place_model_id');
+            $table->integer('banner_model_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::dropIfExists('banners_places_banners');
+        Schema::dropIfExists('banners_places');
+    }
+}

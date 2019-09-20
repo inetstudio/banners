@@ -1,0 +1,36 @@
+{
+  "name": "inetstudio/banners",
+  "description": "Package for banners",
+  "homepage": "https://github.com/inetstudio/banners",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Konstantin Bukin",
+      "email": "bukin@inetstudio.ru"
+    }
+  ],
+  "require": {
+    "inetstudio/admin-panel": "1.8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "InetStudio\\BannersPackage\\": "package/src",
+      "InetStudio\\BannersPackage\\Banners\\": "entities/banners/src",
+      "InetStudio\\BannersPackage\\Groups\\": "entities/groups/src",
+      "InetStudio\\BannersPackage\\Places\\": "entities/places/src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "InetStudio\\BannersPackage\\Providers\\ServiceProvider",
+        "InetStudio\\BannersPackage\\Banners\\Providers\\BindingsServiceProvider",
+        "InetStudio\\BannersPackage\\Banners\\Providers\\ServiceProvider",
+        "InetStudio\\BannersPackage\\Groups\\Providers\\BindingsServiceProvider",
+        "InetStudio\\BannersPackage\\Groups\\Providers\\ServiceProvider",
+        "InetStudio\\BannersPackage\\Places\\Providers\\BindingsServiceProvider",
+        "InetStudio\\BannersPackage\\Places\\Providers\\ServiceProvider"
+      ]
+    }
+  }
+}
