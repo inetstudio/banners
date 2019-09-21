@@ -32,7 +32,11 @@ class ItemsService extends BaseService implements ItemsServiceContract
     {
         parent::__construct($model);
 
-        $this->initItems();
+        $this->initItems(
+            [
+                'relations' => ['places', 'groups', 'media'],
+            ]
+        );
     }
 
     /**
@@ -40,7 +44,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
      *
      * @param  array  $params
      */
-    public function initItems(array $params = []): void
+    protected function initItems(array $params = []): void
     {
         $now = Carbon::now();
 
@@ -56,8 +60,10 @@ class ItemsService extends BaseService implements ItemsServiceContract
 
         foreach ($items as $item) {
             foreach ($item->places as $place) {
-                foreach ($item->groups as $group) {
-                    $this->items[$place->alias][$group->alias] = $item;
+                $groups = $item->groups->toArray();
+
+                foreach ($groups ?: [['alias' => 'default']] as $group) {
+                    $this->items[$place->alias][$group['alias']][] = $item;
                 }
             }
         }
@@ -76,7 +82,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
         $items = [];
 
         foreach ($positions as $position => $count) {
-            $banners[$position] = (isset($item['type']) && isset($item['slug']) && isset($this->materialsItems[$position][$item['type'].'_'.$item['slug']]))
+            $items[$position] = (isset($item['type']) && isset($item['slug']) && isset($this->materialsItems[$position][$item['type'].'_'.$item['slug']]))
                 ? Arr::only($this->materialsItems[$position], $item['type'].'_'.$item['slug'])
                 : Arr::random($this->items[$position], min(count($this->items[$position]), $count));
 

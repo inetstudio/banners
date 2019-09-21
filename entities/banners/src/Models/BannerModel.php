@@ -5,11 +5,9 @@ namespace InetStudio\BannersPackage\Banners\Models;
 use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InetStudio\Uploads\Models\Traits\HasImages;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use InetStudio\Classifiers\Models\Traits\HasClassifiers;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
@@ -23,7 +21,6 @@ class BannerModel extends Model implements BannerModelContract
     use Auditable;
     use HasImages;
     use SoftDeletes;
-    use HasClassifiers;
     use BuildQueryScopeTrait;
 
     /**
@@ -45,6 +42,7 @@ class BannerModel extends Model implements BannerModelContract
      */
     protected $images = [
         'config' => 'banners',
+        'model' => 'banner',
     ];
 
     /**
