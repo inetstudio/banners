@@ -90,7 +90,7 @@ class DataTableService extends DataTable implements DataTableServiceContract
     protected function getColumns(): array
     {
         return [
-            ['data' => 'is_active', 'name' => 'is_active', 'title' => 'Активен', 'orderable' => false],
+            ['data' => 'is_active', 'name' => 'is_active', 'title' => 'Активен', 'searchable' => false, 'orderable' => false],
             ['data' => 'places', 'name' => 'places.name', 'title' => 'Расположения'],
             ['data' => 'groups', 'name' => 'groups.name', 'title' => 'Группы'],
             ['data' => 'title', 'name' => 'title', 'title' => 'Заголовок'],
