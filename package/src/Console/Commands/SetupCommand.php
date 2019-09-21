@@ -21,7 +21,7 @@ class SetupCommand extends BaseSetupCommand
      *
      * @var string
      */
-    protected $description = 'Setup promo package';
+    protected $description = 'Setup banners package';
 
     /**
      * Инициализация команд.
