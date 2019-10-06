@@ -70,7 +70,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
     }
 
     /**
-     * Получаем случайныe баннеры.
+     * Получаем случайные баннеры.
      *
      * @param  array  $positions
      * @param  array  $item
@@ -84,10 +84,10 @@ class ItemsService extends BaseService implements ItemsServiceContract
         foreach ($positions as $position => $count) {
             $items[$position] = (isset($item['type']) && isset($item['slug']) && isset($this->materialsItems[$position][$item['type'].'_'.$item['slug']]))
                 ? Arr::only($this->materialsItems[$position], $item['type'].'_'.$item['slug'])
-                : Arr::random($this->items[$position], min(count($this->items[$position]), $count));
+                : Arr::random($this->items[$position] ?? [], min(count($this->items[$position] ?? []), $count));
 
             $items[$position] = Arr::flatten($items[$position], 1);
-            $items[$position] = Arr::random($items[$position], $count);
+            $items[$position] = Arr::random($items[$position], min(count($this->items[$position] ?? []), $count));
         }
 
         return $items;
