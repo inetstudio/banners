@@ -29,9 +29,15 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
         'InetStudio\BannersPackage\Banners\Contracts\Services\Back\ItemsServiceContract' => 'InetStudio\BannersPackage\Banners\Services\Back\ItemsService',
         'InetStudio\BannersPackage\Banners\Contracts\Services\Back\UtilityServiceContract' => 'InetStudio\BannersPackage\Banners\Services\Back\UtilityService',
         'InetStudio\BannersPackage\Banners\Contracts\Services\Front\FeedsServiceContract' => 'InetStudio\BannersPackage\Banners\Services\Front\FeedsService',
-        'InetStudio\BannersPackage\Banners\Contracts\Services\Front\ItemsServiceContract' => 'InetStudio\BannersPackage\Banners\Services\Front\ItemsService',
         'InetStudio\BannersPackage\Banners\Contracts\Transformers\Back\Resource\IndexTransformerContract' => 'InetStudio\BannersPackage\Banners\Transformers\Back\Resource\IndexTransformer',
         'InetStudio\BannersPackage\Banners\Contracts\Transformers\Back\Utility\SuggestionTransformerContract' => 'InetStudio\BannersPackage\Banners\Transformers\Back\Utility\SuggestionTransformer',
+    ];
+
+    /**
+     * @var  array
+     */
+    public $singletons = [
+        'InetStudio\BannersPackage\Banners\Contracts\Services\Front\ItemsServiceContract' => 'InetStudio\BannersPackage\Banners\Services\Front\ItemsService',
     ];
 
     /**
@@ -41,6 +47,9 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
      */
     public function provides()
     {
-        return array_keys($this->bindings);
+        return array_merge(
+            array_keys($this->bindings),
+            array_keys($this->singletons)
+        );
     }
 }
