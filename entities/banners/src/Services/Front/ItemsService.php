@@ -87,7 +87,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
                 : Arr::random($this->items[$position] ?? [], min(count($this->items[$position] ?? []), $count));
 
             $items[$position] = Arr::flatten($items[$position], 1);
-            $items[$position] = Arr::random($items[$position], min(count($this->items[$position] ?? []), $count));
+            $items[$position] = Arr::random($items[$position], min(count($items[$position] ?? []), $count));
         }
 
         return $items;
