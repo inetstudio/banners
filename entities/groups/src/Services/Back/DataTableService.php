@@ -2,7 +2,6 @@
 
 namespace InetStudio\BannersPackage\Groups\Services\Back;
 
-use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\Html\Builder;
@@ -10,36 +9,18 @@ use Yajra\DataTables\Services\DataTable;
 use InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract;
 use InetStudio\BannersPackage\Groups\Contracts\Services\Back\DataTableServiceContract;
 
-/**
- * Class DataTableService.
- */
 class DataTableService extends DataTable implements DataTableServiceContract
 {
-    /**
-     * @var GroupModelContract
-     */
-    public $model;
+    public GroupModelContract $model;
 
-    /**
-     * DataTableService constructor.
-     *
-     * @param  GroupModelContract  $model
-     */
     public function __construct(GroupModelContract $model)
     {
         $this->model = $model;
     }
 
-    /**
-     * Запрос на получение данных таблицы.
-     *
-     * @return JsonResponse
-     *
-     * @throws Exception
-     */
     public function ajax(): JsonResponse
     {
-        $transformer = app()->make(
+        $transformer = resolve(
             'InetStudio\BannersPackage\Groups\Contracts\Transformers\Back\Resource\IndexTransformerContract'
         );
 
@@ -49,27 +30,15 @@ class DataTableService extends DataTable implements DataTableServiceContract
             ->make();
     }
 
-    /**
-     * Get the query object to be processed by dataTables.
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Support\Collection
-     */
     public function query()
     {
-        $query = $this->model->buildQuery(
+        return $this->model->buildQuery(
             [
                 'columns' => ['created_at', 'updated_at'],
             ]
         );
-
-        return $query;
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return Builder
-     */
     public function html(): Builder
     {
         /** @var Builder $table */
@@ -81,11 +50,6 @@ class DataTableService extends DataTable implements DataTableServiceContract
             ->parameters($this->getParameters());
     }
 
-    /**
-     * Получаем колонки.
-     *
-     * @return array
-     */
     protected function getColumns(): array
     {
         return [
@@ -103,11 +67,6 @@ class DataTableService extends DataTable implements DataTableServiceContract
         ];
     }
 
-    /**
-     * Свойства ajax datatables.
-     *
-     * @return array
-     */
     protected function getAjaxOptions(): array
     {
         return [
@@ -116,11 +75,6 @@ class DataTableService extends DataTable implements DataTableServiceContract
         ];
     }
 
-    /**
-     * Свойства datatables.
-     *
-     * @return array
-     */
     protected function getParameters(): array
     {
         $translation = trans('admin::datatables');

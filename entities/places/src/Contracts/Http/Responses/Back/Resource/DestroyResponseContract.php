@@ -4,9 +4,6 @@ namespace InetStudio\BannersPackage\Places\Contracts\Http\Responses\Back\Resourc
 
 use Illuminate\Contracts\Support\Responsable;
 
-/**
- * Interface DestroyResponseContract.
- */
 interface DestroyResponseContract extends Responsable
 {
 }

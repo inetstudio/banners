@@ -5,15 +5,9 @@ namespace InetStudio\BannersPackage\Groups\Providers;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-/**
- * Class BindingsServiceProvider.
- */
 class BindingsServiceProvider extends BaseServiceProvider implements DeferrableProvider
 {
-    /**
-     * @var  array
-     */
-    public $bindings = [
+    public array $bindings = [
         'InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract' => 'InetStudio\BannersPackage\Groups\Models\GroupModel',
         'InetStudio\BannersPackage\Groups\Contracts\Transformers\Back\Resource\IndexTransformerContract' => 'InetStudio\BannersPackage\Groups\Transformers\Back\Resource\IndexTransformer',
         'InetStudio\BannersPackage\Groups\Contracts\Transformers\Back\Utility\SuggestionTransformerContract' => 'InetStudio\BannersPackage\Groups\Transformers\Back\Utility\SuggestionTransformer',
@@ -33,11 +27,6 @@ class BindingsServiceProvider extends BaseServiceProvider implements DeferrableP
         'InetStudio\BannersPackage\Groups\Contracts\Services\Front\ItemsServiceContract' => 'InetStudio\BannersPackage\Groups\Services\Front\ItemsService',
     ];
 
-    /**
-     * Получить сервисы от провайдера.
-     *
-     * @return  array
-     */
     public function provides()
     {
         return array_keys($this->bindings);

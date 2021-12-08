@@ -7,36 +7,19 @@ use InetStudio\AdminPanel\Base\Services\BaseService;
 use InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract;
 use InetStudio\BannersPackage\Groups\Contracts\Services\Back\UtilityServiceContract;
 
-/**
- * Class UtilityService.
- */
 class UtilityService extends BaseService implements UtilityServiceContract
 {
-    /**
-     * UtilityService constructor.
-     *
-     * @param  GroupModelContract  $model
-     */
     public function __construct(GroupModelContract $model)
     {
         parent::__construct($model);
     }
 
-    /**
-     * Получаем подсказки.
-     *
-     * @param  string  $search
-     *
-     * @return Collection
-     */
     public function getSuggestions(string $search): Collection
     {
-        $items = $this->model::where(
+        return $this->model::where(
             [
                 ['name', 'LIKE', '%'.$search.'%'],
             ]
         )->get();
-
-        return $items;
     }
 }

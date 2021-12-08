@@ -4,9 +4,6 @@ namespace InetStudio\BannersPackage\Groups\Contracts\Http\Responses\Back\Resourc
 
 use Illuminate\Contracts\Support\Responsable;
 
-/**
- * Interface FormResponseContract.
- */
 interface FormResponseContract extends Responsable
 {
 }

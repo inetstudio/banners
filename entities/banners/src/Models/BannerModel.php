@@ -6,57 +6,25 @@ use Illuminate\Support\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use InetStudio\Uploads\Models\Traits\HasImages;
+use InetStudio\UploadsPackage\Uploads\Models\Traits\HasMedia;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\AdminPanel\Base\Models\Traits\Scopes\BuildQueryScopeTrait;
 use InetStudio\BannersPackage\Banners\Contracts\Models\BannerModelContract;
 
-/**
- * Class BannersModel.
- */
 class BannerModel extends Model implements BannerModelContract
 {
     use Auditable;
-    use HasImages;
+    use HasMedia;
     use SoftDeletes;
     use BuildQueryScopeTrait;
 
-    /**
-     * Тип сущности.
-     */
     const ENTITY_TYPE = 'banner';
 
-    /**
-     * Should the timestamps be audited?
-     *
-     * @var bool
-     */
-    protected $auditTimestamps = true;
+    protected bool $auditTimestamps = true;
 
-    /**
-     * Настройки для генерации изображений.
-     *
-     * @var array
-     */
-    protected $images = [
-        'config' => 'banners',
-        'model' => 'banner',
-    ];
-
-    /**
-     * Связанная с моделью таблица.
-     *
-     * @var string
-     */
     protected $table = 'banners';
 
-    /**
-     * Атрибуты, для которых разрешено массовое назначение.
-     *
-     * @var array
-     */
     protected $fillable = [
         'title',
         'href',
@@ -64,11 +32,6 @@ class BannerModel extends Model implements BannerModelContract
         'date_end',
     ];
 
-    /**
-     * Атрибуты, которые должны быть преобразованы в даты.
-     *
-     * @var array
-     */
     protected $dates = [
         'date_start',
         'date_end',
@@ -77,9 +40,6 @@ class BannerModel extends Model implements BannerModelContract
         'deleted_at',
     ];
 
-    /**
-     * Загрузка модели.
-     */
     protected static function boot()
     {
         parent::boot();
@@ -121,66 +81,34 @@ class BannerModel extends Model implements BannerModelContract
         ];
     }
 
-    /**
-     * Сеттер атрибута title.
-     *
-     * @param $value
-     */
     public function setTitleAttribute($value): void
     {
         $this->attributes['title'] = trim(strip_tags($value));
     }
 
-    /**
-     * Сеттер атрибута href.
-     *
-     * @param $value
-     */
     public function setHrefAttribute($value): void
     {
         $this->attributes['href'] = trim(strip_tags($value));
     }
 
-    /**
-     * Сеттер атрибута date_start.
-     *
-     * @param $value
-     */
     public function setDateStartAttribute($value): void
     {
         $this->attributes['date_start'] = ($value) ? Carbon::createFromFormat('d.m.Y H:i', $value) : null;
     }
 
-    /**
-     * Сеттер атрибута date_end.
-     *
-     * @param $value
-     */
     public function setDateEndAttribute($value): void
     {
         $this->attributes['date_end'] = ($value) ? Carbon::createFromFormat('d.m.Y H:i', $value) : null;
     }
 
-    /**
-     * Геттер атрибута type.
-     *
-     * @return string
-     */
     public function getTypeAttribute(): string
     {
         return self::ENTITY_TYPE;
     }
 
-    /**
-     * Расположения.
-     *
-     * @return BelongsToMany
-     *
-     * @throws BindingResolutionException
-     */
     public function places(): BelongsToMany
     {
-        $groupModel = app()->make('InetStudio\BannersPackage\Places\Contracts\Models\PlaceModelContract');
+        $groupModel = resolve('InetStudio\BannersPackage\Places\Contracts\Models\PlaceModelContract');
 
         return $this->belongsToMany(
             get_class($groupModel),
@@ -190,16 +118,9 @@ class BannerModel extends Model implements BannerModelContract
         );
     }
 
-    /**
-     * Группы.
-     *
-     * @return BelongsToMany
-     *
-     * @throws BindingResolutionException
-     */
     public function groups(): BelongsToMany
     {
-        $groupModel = app()->make('InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract');
+        $groupModel = resolve('InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract');
 
         return $this->belongsToMany(
             get_class($groupModel),
@@ -207,5 +128,10 @@ class BannerModel extends Model implements BannerModelContract
             'banner_model_id',
             'group_model_id'
         );
+    }
+
+    public function getMediaConfig(): array
+    {
+        return config('banners.media', []);
     }
 }

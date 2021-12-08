@@ -3,50 +3,24 @@
 namespace InetStudio\BannersPackage\Places\Http\Responses\Back\Utility;
 
 use League\Fractal\Manager;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use InetStudio\BannersPackage\Places\Contracts\Http\Responses\Back\Utility\SuggestionsResponseContract;
 
-/**
- * Class SuggestionsResponse.
- */
 class SuggestionsResponse implements SuggestionsResponseContract
 {
-    /**
-     * @var Collection
-     */
-    protected $items;
+    protected Collection $items;
 
-    /**
-     * @var string
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * SuggestionsResponse constructor.
-     *
-     * @param  Collection  $items
-     * @param  string  $type
-     */
     public function __construct(Collection $items, string $type = '')
     {
         $this->items = $items;
         $this->type = $type;
     }
 
-    /**
-     * Возвращаем подсказки для поля.
-     *
-     * @param  Request  $request
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
-     *
-     * @throws BindingResolutionException
-     */
     public function toResponse($request)
     {
-        $transformer = app()->make(
+        $transformer = resolve(
             'InetStudio\BannersPackage\Places\Contracts\Transformers\Back\Utility\SuggestionTransformerContract',
             [
                 'type' => $this->type,
@@ -55,7 +29,7 @@ class SuggestionsResponse implements SuggestionsResponseContract
 
         $resource = $transformer->transformCollection($this->items);
 
-        $serializer = app()->make('InetStudio\AdminPanel\Base\Contracts\Serializers\SimpleDataArraySerializerContract');
+        $serializer = resolve('InetStudio\AdminPanel\Base\Contracts\Serializers\SimpleDataArraySerializerContract');
 
         $manager = new Manager();
         $manager->setSerializer($serializer);

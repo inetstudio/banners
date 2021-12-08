@@ -3,14 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreateBannersPlacesTables.
- */
 class CreateBannersPlacesTables extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('banners_places', function (Blueprint $table) {
@@ -27,9 +21,6 @@ class CreateBannersPlacesTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('banners_places_banners');

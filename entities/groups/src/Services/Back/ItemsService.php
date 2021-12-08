@@ -8,29 +8,13 @@ use InetStudio\AdminPanel\Base\Services\BaseService;
 use InetStudio\BannersPackage\Groups\Contracts\Models\GroupModelContract;
 use InetStudio\BannersPackage\Groups\Contracts\Services\Back\ItemsServiceContract;
 
-/**
- * Class ItemsService.
- */
 class ItemsService extends BaseService implements ItemsServiceContract
 {
-    /**
-     * ItemsService constructor.
-     *
-     * @param  GroupModelContract  $model
-     */
     public function __construct(GroupModelContract $model)
     {
         parent::__construct($model);
     }
 
-    /**
-     * Сохраняем модель.
-     *
-     * @param  array  $data
-     * @param  int  $id
-     *
-     * @return GroupModelContract
-     */
     public function save(array $data, int $id): GroupModelContract
     {
         $action = ($id) ? 'отредактирована' : 'создана';
@@ -39,7 +23,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
         $item = $this->saveModel($itemData, $id);
 
         event(
-            app()->makeWith(
+            resolve(
                 'InetStudio\BannersPackage\Groups\Contracts\Events\Back\ModifyItemEventContract',
                 compact('item')
             )
@@ -50,13 +34,6 @@ class ItemsService extends BaseService implements ItemsServiceContract
         return $item;
     }
 
-    /**
-     * Присваиваем группы объекту.
-     *
-     * @param $groupsIds
-     *
-     * @param $item
-     */
     public function attachToObject($groupsIds, $item)
     {
         $groupsIds = $groupsIds ?? [];

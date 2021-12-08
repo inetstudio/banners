@@ -8,29 +8,13 @@ use InetStudio\AdminPanel\Base\Services\BaseService;
 use InetStudio\BannersPackage\Places\Contracts\Models\PlaceModelContract;
 use InetStudio\BannersPackage\Places\Contracts\Services\Back\ItemsServiceContract;
 
-/**
- * Class ItemsService.
- */
 class ItemsService extends BaseService implements ItemsServiceContract
 {
-    /**
-     * ItemsService constructor.
-     *
-     * @param  PlaceModelContract  $model
-     */
     public function __construct(PlaceModelContract $model)
     {
         parent::__construct($model);
     }
 
-    /**
-     * Сохраняем модель.
-     *
-     * @param  array  $data
-     * @param  int  $id
-     *
-     * @return PlaceModelContract
-     */
     public function save(array $data, int $id): PlaceModelContract
     {
         $action = ($id) ? 'отредактировано' : 'создано';
@@ -39,7 +23,7 @@ class ItemsService extends BaseService implements ItemsServiceContract
         $item = $this->saveModel($itemData, $id);
 
         event(
-            app()->makeWith(
+            resolve(
                 'InetStudio\BannersPackage\Places\Contracts\Events\Back\ModifyItemEventContract',
                 compact('item')
             )
@@ -50,13 +34,6 @@ class ItemsService extends BaseService implements ItemsServiceContract
         return $item;
     }
 
-    /**
-     * Присваиваем группы объекту.
-     *
-     * @param $placesIds
-     *
-     * @param $item
-     */
     public function attachToObject($placesIds, $item)
     {
         $placesIds = $placesIds ?? [];

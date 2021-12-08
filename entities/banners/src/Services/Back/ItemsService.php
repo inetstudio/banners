@@ -49,12 +49,13 @@ class ItemsService extends BaseService implements ItemsServiceContract
         app()->make('InetStudio\BannersPackage\Groups\Contracts\Services\Back\ItemsServiceContract')
             ->attachToObject($groupsData, $item);
 
-        $images = (config('banners.images.conversions.banner')) ? array_keys(
-            config('banners.images.conversions.banner')
-        ) : [];
-
-        app()->make('InetStudio\Uploads\Contracts\Services\Back\ImagesServiceContract')
-            ->attachToObject(request(), $item, $images, 'banners', '');
+        resolve(
+            'InetStudio\UploadsPackage\Uploads\Contracts\Actions\AttachMediaToObjectActionContract',
+            [
+                'item' => $item,
+                'media' => Arr::get($data, 'media', []),
+            ]
+        )->execute();
 
         event(
             app()->makeWith(
