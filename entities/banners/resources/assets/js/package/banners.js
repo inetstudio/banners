@@ -1,7 +1,5 @@
-let banners = {};
+export let banners = {
+  init: function () {
 
-banners.init = function () {
-
+  }
 };
-
-module.exports = banners;

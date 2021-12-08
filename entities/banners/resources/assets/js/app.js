@@ -1,2 +1,3 @@
-let banners = require('./package/banners');
+import {banners} from './package/banners';
+
 banners.init();
